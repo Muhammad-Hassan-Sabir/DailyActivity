@@ -17,13 +17,13 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Activity>> GetActivities()
+        public async Task<List<Activity>> Activities()
         {
             return await context.Activities.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<Activity> GetActivity(Guid id)
+        public async Task<Activity>Activity(Guid id)
         {
             return await context.Activities.FindAsync(id);
         }
