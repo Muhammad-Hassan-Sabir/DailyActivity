@@ -1,4 +1,6 @@
+using Application.Activities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Writers;
 using Persistence;
 
@@ -18,6 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 });
+builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(typeof(List.Handler).Assembly));
 
 var app = builder.Build();
 
