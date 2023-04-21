@@ -6,17 +6,22 @@ import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
 interface Props{
     activities:Activity[];
+    handleSelectedActivity:(id:string)=>void;
+    cancelSelectedActivity:()=>void;
+    selectedActivity:Activity|undefined;
 }
 
-function ActivityDashboard({activities}:Props) {
+function ActivityDashboard({activities,handleSelectedActivity
+        ,cancelSelectedActivity,selectedActivity}:Props) {
   return (
     <>
     <Grid>
         <Grid.Column width='10'>
-            <ActivityList activities={activities}></ActivityList>
+            <ActivityList activities={activities} handleSelectedActivity={handleSelectedActivity}></ActivityList>
         </Grid.Column>
         <Grid.Column width='6'>
-            {activities[0]&&<ActivityDetails activity={activities[0]}></ActivityDetails>}
+            {selectedActivity&&<ActivityDetails 
+            activity={selectedActivity} cancelSelectedActivity={cancelSelectedActivity}></ActivityDetails>}
             <ActivityForm></ActivityForm>
         </Grid.Column>
     </Grid>

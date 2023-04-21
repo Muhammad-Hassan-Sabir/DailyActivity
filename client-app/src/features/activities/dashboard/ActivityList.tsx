@@ -4,9 +4,11 @@ import { Activity } from '../../../app/models/activity';
 
 interface Props{
     activities:Activity[];
+    handleSelectedActivity:(id:string)=>void;
+    
 }
 
-export default function ActivityList({activities}:Props) {
+export default function ActivityList({activities,handleSelectedActivity}:Props) {
   return (
     <>
     <Segment>
@@ -21,7 +23,7 @@ export default function ActivityList({activities}:Props) {
                         <div>{actvity.city}, {actvity.venue}</div>
                         </Item.Description>
                     <Item.Extra>
-                        <Button floated='right' content="View" color='blue'></Button>
+                        <Button onClick={()=>handleSelectedActivity(actvity.id)} floated='right' content="View" color='blue'></Button>
                         <Label basic content={actvity.category}></Label>
                     </Item.Extra>
                 </Item.Content>

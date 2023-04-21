@@ -4,8 +4,9 @@ import { Activity } from '../../../app/models/activity';
 
 interface Props{
     activity:Activity;
+    cancelSelectedActivity:()=>void;
 }
-export default function ActivityDetails({activity}:Props) {
+export default function ActivityDetails({activity,cancelSelectedActivity}:Props) {
   return (
     <>
      <Card fluid>
@@ -22,7 +23,7 @@ export default function ActivityDetails({activity}:Props) {
     <Card.Content extra>
       <Button.Group widths='2'>
         <Button basic color='blue' content="Edit"></Button>
-        <Button basic color='grey' content="Cancel"></Button>
+        <Button onClick={cancelSelectedActivity} basic color='grey' content="Cancel"></Button>
       </Button.Group>
     </Card.Content>
   </Card>
