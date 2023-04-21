@@ -7,7 +7,7 @@ function NavBar() {
             <Container>
                 <Menu.Item header>
                     <img src="/assets/logo.png" alt="logo" style={{marginRight:'10px'}} />
-                    Reactivities
+                    Daily Activity
                 </Menu.Item>
                 <Menu.Item name='Activities'></Menu.Item>
                 <Menu.Item>
