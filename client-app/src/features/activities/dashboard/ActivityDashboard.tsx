@@ -9,10 +9,13 @@ interface Props{
     handleSelectedActivity:(id:string)=>void;
     cancelSelectedActivity:()=>void;
     selectedActivity:Activity|undefined;
+    handleOpenForm:(id:string)=>void;
+    handleCloseForm:()=>void;
+    editMode:Boolean;
 }
 
 function ActivityDashboard({activities,handleSelectedActivity
-        ,cancelSelectedActivity,selectedActivity}:Props) {
+        ,cancelSelectedActivity,selectedActivity,handleCloseForm,handleOpenForm,editMode}:Props) {
   return (
     <>
     <Grid>
@@ -20,9 +23,16 @@ function ActivityDashboard({activities,handleSelectedActivity
             <ActivityList activities={activities} handleSelectedActivity={handleSelectedActivity}></ActivityList>
         </Grid.Column>
         <Grid.Column width='6'>
-            {selectedActivity&&<ActivityDetails 
-            activity={selectedActivity} cancelSelectedActivity={cancelSelectedActivity}></ActivityDetails>}
-            <ActivityForm></ActivityForm>
+            {selectedActivity&& !editMode&&
+            <ActivityDetails 
+                    activity={selectedActivity}
+                    cancelSelectedActivity={cancelSelectedActivity}
+                    handleOpenForm={handleOpenForm}
+                    ></ActivityDetails>}
+                    {
+                        editMode&&
+                        <ActivityForm handleCloseForm={handleCloseForm} activity={selectedActivity} ></ActivityForm>
+                    }
         </Grid.Column>
     </Grid>
     </>
