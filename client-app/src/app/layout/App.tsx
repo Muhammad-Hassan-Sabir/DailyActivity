@@ -37,6 +37,9 @@ function App() {
     setEditMode(false);
     setSelectedActivity(activity);
   }
+  function deleteActivity(id:string) {
+    setActivites([...activities.filter(a=>a.id!==id)])
+  }
 
   return (
     <>
@@ -51,6 +54,7 @@ function App() {
       handleOpenForm={handleOpenForm}
       editMode={editMode}
       createOrEditActivity={handleCreateOrEditActivity}
+      deleteActivity={deleteActivity}
       />
       </Container>
    

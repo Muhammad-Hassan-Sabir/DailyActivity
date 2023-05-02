@@ -13,15 +13,16 @@ interface Props{
     handleCloseForm:()=>void;
     createOrEditActivity:(activity:Activity)=>void;
     editMode:Boolean;
+    deleteActivity:(id:string)=>void;
 }
 
 function ActivityDashboard({activities,handleSelectedActivity
-        ,cancelSelectedActivity,selectedActivity,handleCloseForm,handleOpenForm,editMode,createOrEditActivity}:Props) {
+        ,cancelSelectedActivity,selectedActivity,handleCloseForm,handleOpenForm,editMode,createOrEditActivity,deleteActivity}:Props) {
   return (
     <>
     <Grid>
         <Grid.Column width='10'>
-            <ActivityList activities={activities} handleSelectedActivity={handleSelectedActivity}></ActivityList>
+            <ActivityList activities={activities} handleSelectedActivity={handleSelectedActivity} deleteActivity={deleteActivity}></ActivityList>
         </Grid.Column>
         <Grid.Column width='6'>
             {selectedActivity&& !editMode&&
