@@ -6,9 +6,10 @@ import { title } from 'process';
 interface Props{
   activity:Activity|undefined
   handleCloseForm:()=>void;
+  createOrEditActivity:(activity:Activity)=>void;
 }
 
-export default function ActivityForm({handleCloseForm,activity:selectedActivity}:Props) {
+export default function ActivityForm({handleCloseForm,activity:selectedActivity,createOrEditActivity}:Props) {
    const activityInitialState=selectedActivity?? {
     id:"",
     title:"",
@@ -25,7 +26,7 @@ const handleChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
   setActivity(values => ({...values, [name]: value}))
 }
 const handleSubmit=()=>{
-  console.log(activity)
+  createOrEditActivity(activity);
 }
   return (
     <>

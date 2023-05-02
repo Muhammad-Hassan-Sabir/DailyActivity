@@ -11,11 +11,12 @@ interface Props{
     selectedActivity:Activity|undefined;
     handleOpenForm:(id:string)=>void;
     handleCloseForm:()=>void;
+    createOrEditActivity:(activity:Activity)=>void;
     editMode:Boolean;
 }
 
 function ActivityDashboard({activities,handleSelectedActivity
-        ,cancelSelectedActivity,selectedActivity,handleCloseForm,handleOpenForm,editMode}:Props) {
+        ,cancelSelectedActivity,selectedActivity,handleCloseForm,handleOpenForm,editMode,createOrEditActivity}:Props) {
   return (
     <>
     <Grid>
@@ -31,7 +32,7 @@ function ActivityDashboard({activities,handleSelectedActivity
                     ></ActivityDetails>}
                     {
                         editMode&&
-                        <ActivityForm handleCloseForm={handleCloseForm} activity={selectedActivity} ></ActivityForm>
+                        <ActivityForm handleCloseForm={handleCloseForm} activity={selectedActivity} createOrEditActivity={createOrEditActivity} ></ActivityForm>
                     }
         </Grid.Column>
     </Grid>
