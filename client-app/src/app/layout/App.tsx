@@ -5,14 +5,15 @@ import { Activity } from '../models/activity';
 import NavBar from './NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import {v4 as uuid} from 'uuid';
+import agent from '../api/agent';
 function App() {
   const [activities, setActivites] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity|undefined>(undefined)
   const [editMode, setEditMode] = useState(false)
   useEffect(()=>{
-    axios.get<Activity[]>("http://localhost:5086/api/activities")
+    agent.Activities.list()
         .then((response)=>{
-          setActivites(response.data)
+          setActivites(response)
         });
   },[]);
 
