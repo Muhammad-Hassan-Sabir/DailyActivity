@@ -35,7 +35,7 @@ const handleSubmit=()=>{
                     <Form.Input name="title" value={activity.title} onChange={handleChange} placeholder='Title'></Form.Input>
                     <Form.TextArea name="description" value={activity.description} onChange={handleChange} placeholder='Description'></Form.TextArea>
                     <Form.Input name="category" value={activity.category} onChange={handleChange} placeholder='Category'></Form.Input>
-                    <Form.Input name="date" value={activity.date} onChange={handleChange} placeholder='Date'></Form.Input>
+                    <Form.Input name="date" type='date' value={activity.date} onChange={handleChange} placeholder='Date'></Form.Input>
                     <Form.Input name="city" value={activity.city} onChange={handleChange} placeholder='City'></Form.Input>
                     <Form.Input name="venue" value={activity.venue} onChange={handleChange} placeholder='Venue'></Form.Input>
                     <Button floated='right' type='submit' positive content="Submit" ></Button>
