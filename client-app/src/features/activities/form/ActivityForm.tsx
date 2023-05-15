@@ -7,9 +7,10 @@ interface Props{
   activity:Activity|undefined
   handleCloseForm:()=>void;
   createOrEditActivity:(activity:Activity)=>void;
+  submitting:boolean;
 }
 
-export default function ActivityForm({handleCloseForm,activity:selectedActivity,createOrEditActivity}:Props) {
+export default function ActivityForm({handleCloseForm,activity:selectedActivity,createOrEditActivity,submitting}:Props) {
    const activityInitialState=selectedActivity?? {
     id:"",
     title:"",
@@ -38,7 +39,7 @@ const handleSubmit=()=>{
                     <Form.Input name="date" type='date' value={activity.date} onChange={handleChange} placeholder='Date'></Form.Input>
                     <Form.Input name="city" value={activity.city} onChange={handleChange} placeholder='City'></Form.Input>
                     <Form.Input name="venue" value={activity.venue} onChange={handleChange} placeholder='Venue'></Form.Input>
-                    <Button floated='right' type='submit' positive content="Submit" ></Button>
+                    <Button loading={submitting} floated='right' type='submit' positive content="Submit" ></Button>
                     <Button floated='right' onClick={handleCloseForm} type='button' content="Cancel" ></Button>
                 </Form>
     </Segment>
