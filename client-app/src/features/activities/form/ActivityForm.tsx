@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Button, Form, Segment } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
-
-
-
-export default function ActivityForm( ) {
+import {  observer } from 'mobx-react-lite';
+function ActivityForm( ) {
   const {activityStore} =useStore();
   const {selectedActivity,closeForm,loading,createActivity,updateActivity}=activityStore;
   const activityInitialState=selectedActivity?? {
@@ -42,3 +40,4 @@ const handleSubmit=()=>{
     </>
   )
 }
+export default observer(ActivityForm)
