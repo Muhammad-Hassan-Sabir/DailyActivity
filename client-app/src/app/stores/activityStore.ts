@@ -1,7 +1,7 @@
-import {makeAutoObservable ,observable} from 'mobx'
+import {makeAutoObservable ,observable, runInAction} from 'mobx'
 import { Activity } from '../models/activity'
 import agent from '../api/agent';
-import { stat } from 'fs';
+import { v4 as uuid } from "uuid";
 
 export default class ActivityStore{
 
@@ -47,5 +47,45 @@ export default class ActivityStore{
         this.editMode=false;
     }
 
+    createActivity=async (activity:Activity)=>{
+        this.loading=true;
+        activity.id=uuid();
+        try {
+            await agent.Activities.create(activity)
+            runInAction(()=>{
+            this.activities.push(activity);
+            this.selectedActivity=activity;
+            this.editMode=false;
+            this.loading=false;
+          })
+
+        } catch (error) {
+            console.log(error);
+            runInAction(()=>{
+                this.loading=false;
+            })
+        }
+
+    }
+    updateActivity=async (activity:Activity)=>{
+        this.loading=true;
+        try {
+
+            await agent.Activities.update(activity)
+            runInAction(()=>{
+            this.activities=[...this.activities.filter(x=>x.id!==activity.id),activity];
+            this.selectedActivity=activity;
+            this.editMode=false;
+            this.loading=false;
+          })
+
+        } catch (error) {
+            console.log(error);
+            runInAction(()=>{
+                this.loading=false;
+            })
+        }
+
+    }
     
 }
