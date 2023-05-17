@@ -1,9 +1,10 @@
 import  { SyntheticEvent, useState } from 'react'
 import { Button, Item, Label, Segment } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
 
 
-export default function ActivityList() {
+export default observer(function ActivityList() {
     const {activityStore}=useStore();
     const {selectActivity,activities,loading,deleteActivity}=activityStore;
     const [target, setTarget] = useState("");
@@ -45,4 +46,4 @@ export default function ActivityList() {
     </Segment>
     </>
   )
-}
+})
