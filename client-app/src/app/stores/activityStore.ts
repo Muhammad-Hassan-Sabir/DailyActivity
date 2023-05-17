@@ -6,7 +6,7 @@ import { stat } from 'fs';
 export default class ActivityStore{
 
     activities:Activity[]=[];
-    selectedActivity:Activity|null=null;
+    selectedActivity:Activity|undefined=undefined;
     editMode=false;
     loadingInitial=false;
     loading=false;
@@ -31,6 +31,20 @@ export default class ActivityStore{
     }
     setLoadingInitial=(state:boolean)=>{
         this.loadingInitial=state;
+    }
+
+    selectActivity=(id:string)=>{
+        this.selectedActivity=this.activities.find((x) => x.id === id);
+    }
+    cancelSelectActivity=()=>{
+        this.selectedActivity=undefined;
+    }
+    openForm=(id? :string)=>{
+        id?this.selectActivity(id):this.cancelSelectActivity();
+        this.editMode=true;
+    }
+    closeForm=()=>{
+        this.editMode=false;
     }
 
     
