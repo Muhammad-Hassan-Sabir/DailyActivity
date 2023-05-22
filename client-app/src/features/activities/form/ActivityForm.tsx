@@ -1,27 +1,45 @@
-import   { ChangeEvent, useState } from 'react'
+import   { ChangeEvent, useEffect, useState } from 'react'
 import { Button, Form, Segment } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
 import {  observer } from 'mobx-react-lite';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { v4 as uuid } from "uuid";
+
 function ActivityForm( ) {
   const {activityStore} =useStore();
-  const {selectedActivity,closeForm,loading,createActivity,updateActivity}=activityStore;
-  const activityInitialState=selectedActivity?? {
-    id:"",
-    title:"",
-    description:"",
-    city: "",
-    category: "",
-    date: "",
-    venue: ""
-  }
-  const [activity, setActivity] = useState(activityInitialState);
+  const {loadingActivity,loading,createActivity,updateActivity}=activityStore;
+  const {id}=useParams<{id:string}>();
+  const history=useHistory();
+  const [activity, setActivity] = useState({
+            id:"",
+            title:"",
+            description:"",
+            city: "",
+            category: "",
+            date: "",
+            venue: ""
+          });
+ useEffect(() => {
+   if(id) loadingActivity(id).then(activity=>setActivity(activity!))
+ }, [id,loadingActivity])
+ 
+
 
 const handleChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const {name,value}=e.target;
   setActivity(values => ({...values, [name]: value}))
 }
 const handleSubmit=()=>{
-  activity.id ? updateActivity(activity):createActivity(activity);
+  if (activity.id.length===0) {
+    let newActivity={
+      ...activity,id:uuid()
+    }
+    createActivity(newActivity).then(()=>history.push(`/activities/${newActivity.id}`))
+   
+  }
+  else{
+    updateActivity(activity).then(()=>history.push(`/activities/${activity.id}`))
+  }
 }
   return (
     <>
@@ -34,7 +52,7 @@ const handleSubmit=()=>{
                     <Form.Input name="city" value={activity.city} onChange={handleChange} placeholder='City'></Form.Input>
                     <Form.Input name="venue" value={activity.venue} onChange={handleChange} placeholder='Venue'></Form.Input>
                     <Button loading={loading} floated='right' type='submit' positive content="Submit" ></Button>
-                    <Button floated='right' onClick={closeForm} type='button' content="Cancel" ></Button>
+                    <Button as={Link} to="/activities" floated='right'  type='button' content="Cancel" ></Button>
                 </Form>
     </Segment>
     </>
