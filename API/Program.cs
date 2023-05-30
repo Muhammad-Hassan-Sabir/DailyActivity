@@ -1,12 +1,9 @@
-using Application.Activities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Writers;
-using AutoMapper;
-using Persistence;
-using Application.Core;
 using API.Extensions;
+using API.Middleware;
+using Application.Activities;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +35,9 @@ catch (Exception ex)
 //end//
 
 // Configure the HTTP request pipeline.
+
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

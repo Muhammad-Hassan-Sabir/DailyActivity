@@ -1,5 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Activity } from "../models/activity";
+import { toast } from "react-toastify";
+import { history } from "../..";
+import { store } from "../stores/store";
 
 axios.defaults.baseURL = "http://localhost:5086/api";
 
@@ -8,15 +11,46 @@ const sleep = (delay: number) => {
     setTimeout(resolve, delay);
   });
 };
-axios.interceptors.response.use(async (response) => {
-  try {
+axios.interceptors.response.use(
+  async (response) => {
     await sleep(1000);
     return response;
-  } catch (err) {
-    console.log(err);
-    return await Promise.reject();
+  },
+  (error) => {
+    const { data, status, config } = error.response!;
+    switch (status) {
+      case 400:
+        if (typeof data === "string") {
+          toast.error(data);
+        }
+        if (config.method === "get" && data.errors.hasOwnProperty("id")) {
+          history.push("/not-found");
+        }
+        if (data.errors) {
+          const modelStateErrors = [];
+          for (const key in data.errors) {
+            if (data.errors[key]) {
+              modelStateErrors.push(data.errors[key]);
+            }
+          }
+          throw modelStateErrors.flat();
+        }
+
+        break;
+      case 401:
+        toast.error("Unauthorized");
+        break;
+      case 404:
+        history.push("/not-found");
+        break;
+      case 500:
+        store.commonStore.setError(data);
+        history.push("/server-error");
+        break;
+    }
+    return Promise.reject(error);
   }
-});
+);
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const request = {
@@ -29,10 +63,11 @@ const request = {
 
 const Activities = {
   list: () => request.get<Activity[]>("/activities"),
-  details:(id:string)=>request.get<Activity>(`/activities/${id}`),
-  create:(activity:Activity)=>request.post<void>(`/activities`,activity),
-  update:(activity:Activity)=>request.put<void>(`/activities/${activity.id}`,activity),
-  delete:(id:string)=>request.delete<void>(`/activities/${id}`),
+  details: (id: string) => request.get<Activity>(`/activities/${id}`),
+  create: (activity: Activity) => request.post<void>(`/activities`, activity),
+  update: (activity: Activity) =>
+    request.put<void>(`/activities/${activity.id}`, activity),
+  delete: (id: string) => request.delete<void>(`/activities/${id}`),
 };
 
 const agent = {

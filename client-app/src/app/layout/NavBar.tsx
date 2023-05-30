@@ -11,6 +11,7 @@ function NavBar() {
                     Daily Activity
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/activities' name='Activities'></Menu.Item>
+                <Menu.Item as={NavLink} to='/errors' name='Errors'></Menu.Item>
                 <Menu.Item as={NavLink} to='/createActivity'>
                     <Button  positive content="Create Activity"></Button>
                 </Menu.Item>
