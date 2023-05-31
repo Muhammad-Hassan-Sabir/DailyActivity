@@ -1,17 +1,14 @@
-import React, { SyntheticEvent, useState } from "react";
+import  { SyntheticEvent, useState } from "react";
 import {
   Button,
   Icon,
   Item,
-  Label,
   Segment,
-  SegmentGroup,
 } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
 import { useStore } from "../../../app/stores/store";
-import { Link, NavLink } from "react-router-dom";
-import { act } from "@testing-library/react";
-
+import { Link } from "react-router-dom";
+import {format} from 'date-fns'
 interface Props {
   activity: Activity;
 }
@@ -46,7 +43,7 @@ function ActivityListItem({ activity }: Props) {
       <Segment>
         <span>
           <Icon name="clock" />
-          {activity.date}
+          {format(activity.date!,"dd MMM yyyy h:mm aa")}
           <Icon name="marker" />
           {activity.venue}
         </span>
