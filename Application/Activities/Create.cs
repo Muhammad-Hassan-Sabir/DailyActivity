@@ -37,13 +37,6 @@ namespace Application.Activities
                 if (!result) return Result<Unit>.Failure("Failed to create activity.");
                 return Result<Unit>.Success(Unit.Value);
             }
-
-            //public async Task<> Handle(Command request, CancellationToken cancellationToken)
-            //{
-            //    _context.Activities.Add(request.Activity);
-            //    await _context.SaveChangesAsync();
-            //    return;
-            //}
         }
     }
 }
