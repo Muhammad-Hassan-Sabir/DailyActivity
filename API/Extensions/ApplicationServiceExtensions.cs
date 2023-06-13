@@ -1,5 +1,7 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using AutoMapper;
+using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -22,6 +24,8 @@ namespace API.Extensions
             });
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Application.Activities.List.Handler).Assembly));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddScoped<IUserAccessor, UserAccessor>();
+
             return services;
         }
     }
