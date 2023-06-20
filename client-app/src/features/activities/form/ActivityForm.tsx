@@ -11,24 +11,16 @@ import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput";
 import { categoryOptions } from "../../../app/common/options/categoryOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Activity } from "../../../app/models/activity";
+import { Activity, ActivityFormValues } from "../../../app/models/activity";
 function ActivityForm() {
   const { activityStore } = useStore();
-  const { loadingActivity, loading, createActivity, updateActivity } =
+  const { loadingActivity, createActivity, updateActivity } =
     activityStore;
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-  const [activity, setActivity] = useState<Activity>({
-    id: "",
-    title: "",
-    description: "",
-    city: "",
-    category: "",
-    date: null,
-    venue: "",
-  });
+  const [activity, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
   useEffect(() => {
-    if (id) loadingActivity(id).then((activity) => setActivity(activity!));
+    if (id) loadingActivity(id).then((activity) => setActivity(new ActivityFormValues(activity)));
   }, [id, loadingActivity]);
   const validationSchema = Yup.object({
     title: Yup.string().required("The activity is a required field"),
@@ -36,15 +28,15 @@ function ActivityForm() {
     city:  Yup.string().required(),
     category:  Yup.string().required(),
     date:  Yup.string().required().nullable(),
-    venue:  Yup.string().required()
+    venue:  Yup.string().required(),
   });
 
   // const handleChange = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   //   const {name,value}=e.target;
   //   setActivity(values => ({...values, [name]: value}))
   // }
-  const handleFormSubmit=(activity:Activity)=>{
-    if (activity.id.length===0) {
+  const handleFormSubmit=(activity:ActivityFormValues)=>{
+    if (!activity.id) {
       let newActivity={
         ...activity,id:uuid()
       }
@@ -80,7 +72,7 @@ function ActivityForm() {
               <MyTextInput name="venue" placeholder="Venue"></MyTextInput>
               <Button
                 disabled={isSubmitting || !dirty || !isValid }
-                loading={loading}
+                loading={isSubmitting}
                 floated="right"
                 type="submit"
                 positive
