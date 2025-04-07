@@ -40,7 +40,7 @@ namespace Infrastructure.Photos
                 var uploadResult = await cloudinary.UploadAsync(uploadParams);
                 if (!(uploadResult.Error is null))
                 {
-                    throw new Exception(uploadResult.Error.Message);
+                     throw new Exception(uploadResult.Error.Message);
                 }
 
                 return new PhotoUploadResult

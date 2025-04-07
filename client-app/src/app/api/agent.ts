@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
+import { Profile } from "../models/profile";
+import { Photo } from "../models/photo";
 
 axios.defaults.baseURL = "http://localhost:5086/api";
 
@@ -13,12 +15,11 @@ const sleep = (delay: number) => {
   });
 };
 
-axios.interceptors.request.use(config=>{
-  const token=store.commonStore.token;
-  if(token) config.headers.Authorization=`Bearer ${token}`
+axios.interceptors.request.use((config) => {
+  const token = store.commonStore.token;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
-}
-)
+});
 
 axios.interceptors.response.use(
   async (response) => {
@@ -73,21 +74,32 @@ const request = {
 const Activities = {
   list: () => request.get<Activity[]>("/activities"),
   details: (id: string) => request.get<Activity>(`/activities/${id}`),
-  create: (activity: ActivityFormValues) => request.post<void>(`/activities`, activity),
+  create: (activity: ActivityFormValues) =>
+    request.post<void>(`/activities`, activity),
   update: (activity: ActivityFormValues) =>
     request.put<void>(`/activities/${activity.id}`, activity),
   delete: (id: string) => request.delete<void>(`/activities/${id}`),
-  attend:(id:string) =>request.post<void>(`/activities/${id}/attend`,id)
+  attend: (id: string) => request.post<void>(`/activities/${id}/attend`, id),
 };
 
-const Account={
-  current:()=>request.get<User>('/account'),
-  login:(user:UserFormValues)=>request.post<User>("/account/login",user),
-  register:(user:UserFormValues)=>request.post<User>("/account/register",user)
-}
-
+const Account = {
+  current: () => request.get<User>("/account"),
+  login: (user: UserFormValues) => request.post<User>("/account/login", user),
+  register: (user: UserFormValues) =>
+    request.post<User>("/account/register", user),
+};
+const Profiles = {
+  getProfile: (userName: string) =>
+    request.get<Profile>(`/profiles/${userName}`),
+  uploadProfilePhoto: (photo: Blob,photoName:string) => {
+    const form=new FormData();
+    form.append('file',photo,photoName)
+    return request.post<Photo>("/photos", form)
+  },
+};
 const agent = {
   Activities,
-  Account
+  Account,
+  Profiles,
 };
 export default agent;
