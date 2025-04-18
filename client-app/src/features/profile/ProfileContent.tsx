@@ -2,12 +2,14 @@ import React from "react";
 import { Tab, Image } from "semantic-ui-react";
 import { Profile } from "../../app/models/profile";
 import ProfilePhotos from "./ProfilePhotos";
+import ProfileAbout from "./ProfileAbout";
 interface Props {
   profile: Profile | null;
 }
 function ProfileContent({ profile }: Props) {
   const panes = [
-    { menuItem: "About", render: () => <Tab.Pane>About Content</Tab.Pane> },
+    { menuItem: "About", render: () => 
+    (<ProfileAbout profile = {profile} /> )},
     {
       menuItem: "Photos",
       render: () => (

@@ -16,8 +16,12 @@ function ProfileCard({profile}:Props) {
             <CardHeader>
                 {profile.displayName}
             </CardHeader>
-            <Card.Description>
-                Bio goes here
+            <Card.Description >
+            {profile?.bio 
+    ? profile.bio.length >= 10 
+      ? `${profile.bio.substring(0, 10)}....` 
+      : profile.bio
+    : 'No bio available'}
             </Card.Description>
         </CardContent>
         <CardContent extra>

@@ -32,7 +32,6 @@ builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerGen(c =>
 {
     //c.SwaggerDoc("v1", new OpenApiInfo { Title = "isuitecore.api", Version = "v1" });
-
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",

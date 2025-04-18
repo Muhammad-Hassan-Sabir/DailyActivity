@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { history } from "../..";
 import { store } from "../stores/store";
 import { User, UserFormValues } from "../models/user";
-import { Profile } from "../models/profile";
+import { EditProfileFormValues, Profile } from "../models/profile";
 import { Photo } from "../models/photo";
 
 axios.defaults.baseURL = "http://localhost:5086/api";
@@ -96,6 +96,10 @@ const Profiles = {
     form.append('file',photo,photoName)
     return request.post<Photo>("/photos", form)
   },
+  updateProfile:(profile:Partial<Profile>)=> request.post<Profile>("/profiles",{
+    displayName:profile.displayName,
+    bio:profile.bio
+  })
 };
 const agent = {
   Activities,
