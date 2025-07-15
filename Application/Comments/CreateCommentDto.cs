@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces
+namespace Application.Comments
 {
-    public interface IUserAccessor
+    public class CreateCommentDto
     {
-        string GetUsername();
-        string GetUserId();
+        
+
     }
 }

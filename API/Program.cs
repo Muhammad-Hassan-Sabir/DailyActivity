@@ -1,4 +1,6 @@
+using API.Controllers;
 using API.Extensions;
+using API.Hubs;
 using API.Middleware;
 using Application.Activities;
 using Domain;
@@ -93,5 +95,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<ChatHub>("/chat");
 app.Run();
